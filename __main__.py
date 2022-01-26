@@ -45,8 +45,11 @@ class Interface(QMainWindow) :
         screen_geo = screen.availableGeometry() 
         ## channels:
         self.table_model = ChannelViewer(parent=self.channel_list)
+        #self.channel_list.setEnabled(False)
         self.channel_list.setModel(self.table_model)
-
+        header = self.channel_list.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        
         ## show the ui 
         if(screen_geo.width() <= 1100 or screen_geo.height() <= 700) : 
             self.showFullScreen()

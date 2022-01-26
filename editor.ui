@@ -26,25 +26,27 @@
       <x>10</x>
       <y>260</y>
       <width>260</width>
-      <height>290</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
     <property name="title">
-     <string>Raw Channel Viewer</string>
+     <string>Analog Channel Viewer</string>
     </property>
     <widget class="QTableView" name="channel_list">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>50</y>
        <width>240</width>
-       <height>250</height>
+       <height>261</height>
       </rect>
      </property>
     </widget>
@@ -52,7 +54,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>138</y>
+       <y>160</y>
        <width>221</width>
        <height>41</height>
       </rect>
@@ -98,9 +100,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
+       <y>50</y>
        <width>234</width>
-       <height>191</height>
+       <height>181</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -148,6 +150,8 @@
          <widget class="QLabel" name="label_5">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -161,6 +165,8 @@
          <widget class="QLabel" name="name_lbl">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -174,6 +180,8 @@
          <widget class="QLabel" name="label">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -187,6 +195,8 @@
          <widget class="QLabel" name="created_lbl">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -200,6 +210,8 @@
          <widget class="QLabel" name="label_3">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -213,6 +225,8 @@
          <widget class="QLabel" name="modified_lbl">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -226,6 +240,8 @@
          <widget class="QLabel" name="label_4">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -239,6 +255,8 @@
          <widget class="QLabel" name="analog_lbl">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -252,6 +270,8 @@
          <widget class="QLabel" name="label_6">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -265,6 +285,8 @@
          <widget class="QLabel" name="tcp_lbl">
           <property name="font">
            <font>
+            <family>Arial</family>
+            <pointsize>10</pointsize>
             <weight>50</weight>
             <bold>false</bold>
            </font>
@@ -280,17 +302,6 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1024</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

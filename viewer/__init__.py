@@ -14,16 +14,18 @@ from viewer.consumer import temporaryConsumer
 
 class MyMplCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
+    def __init__(self, parent=None, title=None, width=5, height=4, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = fig.add_subplot(111)
         self.axes.set_xlim(0, 1000)
         self.axes.set_ylim(-10,10)
+        self.axes.set_xlabel("Last 1000 Points")
+        self.axes.set_ylabel("V DC")
+        self.axes.set_title(title)
+        self.axes.grid(b=True, which='both', color='#666666', linestyle='-', alpha=0.2)
         # We want the axes cleared every time plot() is called
         #self.axes.hold(False)
-
         self.compute_initial_figure()
-
         #
         FigureCanvas.__init__(self, fig)
         self.setParent(parent)
@@ -41,16 +43,18 @@ class LinePlotWidget(QDialog) :
         self.setFixedWidth(600)
         self.setFixedHeight(400)
         #
-        self.canvas = MyMplCanvas(self, width=5, height=4, dpi=100)
+        self.canvas = MyMplCanvas(self, title=title, width=5, height=4, dpi=100)
         #
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.canvas)
         #
-        self.line = None
-        #
-        self.consumer = temporaryConsumer(topic, None, self.newValue)
+        self.elapsed = QLabel(self)
+        self.elapsed.setGeometry(QRect(20, 20, 250, 20))
+        self.elapsed.setFont(QFont("Arial",10))
         #
         self.start_time = datetime.now()
+        #
+        self.consumer = temporaryConsumer(topic, None, self.newValue)
         #
         self.x = np.arange(0,1000,1)
         self.y = np.zeros(1000)
@@ -62,10 +66,11 @@ class LinePlotWidget(QDialog) :
     @pyqtSlot (float)
     def newValue(self, value) :
         self.value = value 
+        now = datetime.now() 
+        elapsed = str(now-self.start_time)
+        self.elapsed.setText("Elapsed Time: "+elapsed)
 
     def nextFrame(self, i) :
-        now = datetime.now() 
-        elapsed = float((now-self.start_time).total_seconds())
         #
         self.y = np.insert(self.y, 0, self.value, axis=0)
         #
