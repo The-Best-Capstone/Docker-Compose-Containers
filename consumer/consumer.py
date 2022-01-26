@@ -1,6 +1,7 @@
 from kafka import KafkaConsumer
 from json import loads
 from time import sleep
+from threading import Thread
 import datetime
 from multiprocessing import Process
 import psycopg2
@@ -39,27 +40,34 @@ for topic in KafkaConsumer(bootstrap_servers=['172.17.0.1:9092']).topics():
     cursor.execute(query_simulation_sensor_creation)
     conn.commit()
 
-def consumeData():
-    try:
-        consumer = KafkaConsumer(
-            bootstrap_servers=['172.17.0.1:9092'],
-            auto_offset_reset='latest',
-            enable_auto_commit=True,
-            group_id='my-group-id',
-            value_deserializer=lambda x: loads(x.decode('utf-8'))
-        )
-        print(consumer.topics())
-        consumer.subscribe("topic_test")
-    except:
-        print("Error!!")
 
-    for msg in consumer:
-        value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, msg.value)
-        print(value)
-        cols = ['time', 'topic', 'data_value']
-        copyMgr = CopyManager(conn, 'sensordata', cols)
-        copyMgr.copy((value, ))
-        conn.commit()
+class ConsumerThread(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+
+    def run(self):
+        print(self)
+        try:
+            consumer = KafkaConsumer(
+                bootstrap_servers=['172.17.0.1:9092'],
+                auto_offset_reset='latest',
+                enable_auto_commit=True,
+                group_id='my-group-id',
+                value_deserializer=lambda x: loads(x.decode('utf-8'))
+            )
+            print(consumer.topics())
+            consumer.subscribe("topic_test")
+        except:
+            print("Error!!")
+
+        for msg in consumer:
+            value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, msg.value)
+            print(value)
+            cols = ['time', 'topic', 'data_value']
+            copyMgr = CopyManager(conn, 'sensordata', cols)
+            copyMgr.copy((value, ))
+            conn.commit()
+
 
 for worker in range(8):
-    consumeData()
+    ConsumerThread().start()
