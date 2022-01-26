@@ -1,14 +1,16 @@
 from json import load, dumps
-from kafka import KafkaProducer
 from time import sleep
 from random import uniform
 from threading import Thread
+from kafka import KafkaProducer
+from kafka.admin import KafkaAdminClient, NewTopic
 
 
 class SensorThread(Thread):
-    def __init__(self, current_sensor):
+    def __init__(self, current_sensors):
         Thread.__init__(self)
-        self.current_sensor = current_sensor
+        self.current_sensors = current_sensors
+        self.start()
 
     def run(self):
         try:
@@ -16,19 +18,18 @@ class SensorThread(Thread):
                 bootstrap_servers=['172.17.0.1:9092'],
                 value_serializer=lambda x: dumps(x).encode('utf-8')
             )
-        except:
-            print("Error!!")
+        except Exception as ex:
+            print(ex)
 
         while True:
-            for index in range(20):
+            for sensor in self.current_sensors:
                 randInt = round(uniform(15.000, 300.000), 3)
-                print(self.current_sensor['channel'], randInt)
-                producer.send('topic_test', value=randInt)
-                sleep(0.4)
+                print(sensor['channel'], randInt)
+                producer.send(sensor['topic_name'], value=randInt)
+                sleep(0.5)
 
 if __name__ == "__main__":
     with open("./config.json", "r") as f:
         config = load(f)
 
-    for channel in config:
-        SensorThread(channel).start()
+    SensorThread(config)
