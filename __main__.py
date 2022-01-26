@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 from channel_viewer import ChannelViewer
+from config import Configuration
 
 ROOT = os.path.dirname(__file__) 
 CFG_ROOT = os.path.join(ROOT, "configurations")
@@ -55,8 +56,20 @@ class Interface(QMainWindow) :
             self.showFullScreen()
         else :
             self.show()
+
+        ## Button events
+        self.open_btn.clicked.connect(self.loadConfiguration)
         
-        
+    def loadConfiguration(self) :
+        try :
+            config = Configuration(self)
+        except FileNotFoundError :
+            ## TODO: go back to nothing loaded
+            pass
+        else :
+            ## TODO: implement loaded stuff on UI 
+            pass
+
 
 
 app = QApplication(sys.argv)
