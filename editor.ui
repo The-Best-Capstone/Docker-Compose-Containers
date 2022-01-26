@@ -32,10 +32,14 @@
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>18</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;Arial&quot;;</string>
     </property>
     <property name="title">
      <string>Analog Channel Viewer</string>
@@ -48,6 +52,15 @@
        <width>240</width>
        <height>251</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="err_lbl">
@@ -62,8 +75,14 @@
      <property name="font">
       <font>
        <family>Arial</family>
-       <pointsize>10</pointsize>
+       <pointsize>18</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 18pt &quot;Arial&quot;;</string>
      </property>
      <property name="text">
       <string>Analog Channels are not yet initialized.</string>
@@ -88,10 +107,14 @@
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>18</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 18pt &quot;Arial&quot;;</string>
     </property>
     <property name="title">
      <string>Configuration Details</string>
@@ -116,9 +139,15 @@
         </property>
         <property name="font">
          <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 14pt &quot;Arial&quot;;</string>
         </property>
         <property name="text">
          <string>Open Configuration...</string>
@@ -151,10 +180,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>Name:</string>
@@ -166,10 +199,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>.json</string>
@@ -181,10 +218,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>Date Created:</string>
@@ -196,10 +237,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>01/01/0001</string>
@@ -211,10 +256,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>Last Modified:</string>
@@ -226,10 +275,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>01/01/0001</string>
@@ -241,10 +294,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>Analog Channels:</string>
@@ -256,10 +313,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>No</string>
@@ -271,10 +332,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>TCP/IP Devices:</string>
@@ -286,10 +351,14 @@
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>10</pointsize>
+            <pointsize>14</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string>font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>No</string>

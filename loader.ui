@@ -24,13 +24,17 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
+     <family>Arial</family>
+     <pointsize>24</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 0, 0);</string>
+    <string notr="true">
+color: rgb(255, 0, 0);
+font: 24pt &quot;Arial&quot;;</string>
    </property>
    <property name="text">
     <string>Configuration Utility</string>
@@ -50,8 +54,15 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <family>Arial</family>
+     <pointsize>18</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 18pt &quot;Arial&quot;;</string>
    </property>
    <property name="text">
     <string>Would you like to load an existing configuration, or create a new one?</string>
@@ -81,6 +92,9 @@
         <height>35</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+      </property>
       <property name="text">
        <string>Create New</string>
       </property>
@@ -93,6 +107,9 @@
         <width>0</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 14pt &quot;Arial&quot;;</string>
       </property>
       <property name="text">
        <string>Load Existing</string>
@@ -119,6 +136,9 @@
         <width>0</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 14pt &quot;Arial&quot;;</string>
       </property>
       <property name="text">
        <string>Cancel</string>

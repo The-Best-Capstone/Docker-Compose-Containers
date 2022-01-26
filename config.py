@@ -36,7 +36,7 @@ class LoadDialog(QDialog) :
 class Configuration : 
 
     BaseConfig = {
-        "created":datetime.now().strftime("%m/%d/%Y %H:%M:%S"),
+        "created":datetime.now().strftime("%m/%d/%Y %H:%M"),
         "modified":"",
         "analog":False,
         "analog_channels":[
@@ -57,6 +57,7 @@ class Configuration :
 
     def __init__(self, parent) :
         # Prompt for file:
+        self.parent = parent 
         Cancelled = False
         Path = None 
         Current = None 
@@ -75,16 +76,18 @@ class Configuration :
             elif mode.Choice == mode.Existing :
                 load_path = QFileDialog.getOpenFileName(parent, 'Load an existing Configuration', os.path.join(ROOT,"configurations"),"JSON Files (*.json)")
                 if not load_path[0].strip() == "" :
-                    Path = load_path 
+                    Path = load_path[0]
+                    
                     try :
                         tmp = json.load(open(Path))
-                            
                     except Exception :
-                        ## TODO: throw error
+                        dlg = QMessageBox(QMessageBox.Information, "File Error","Unable to load "+os.path.basename(Path)+" :(",(QMessageBox.Ok))
+                        dlg.exec()
                         self.fail() # this is temp 
                     else : 
                         Current = tmp 
-                        ## TODO: report config loaded success!
+                        dlg = QMessageBox(QMessageBox.Information, "Config Loaded","The configuration "+os.path.basename(Path)+" has been successfully loaded!",(QMessageBox.Ok))
+                        dlg.exec() 
                 else :
                     self.fail()
         else :
@@ -92,8 +95,20 @@ class Configuration :
             self.fail()
 
         ## Else :
-        self.Current = Current 
-        self.Current["modified"] = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-    
+        self.path = Path 
+        self.name = os.path.basename(Path)
+        self.data = Current 
+        self.data["modified"] = datetime.now().strftime("%m/%d/%Y %H:%M")
+
+    def saveConfig(self) :
+        dlg = QMessageBox(QMessageBox.Information, "Save Configuration?","Would you like to save your changes to "+self.name+"?",(QMessageBox.Yes | QMessageBox.No))
+        if dlg.exec() == QMessageBox.Yes :
+            try :
+                json.dump(self.data, open(self.path, "w"))
+            except Exception :
+                dlg = QMessageBox(QMessageBox.Information, "File Error","There was an issue attempting to save "+self.name+" :(",(QMessageBox.Ok))
+                dlg.exec() 
+                pass 
+
     def fail(self) :
         raise FileNotFoundError("No configuration loaded")

@@ -50,7 +50,7 @@ class LinePlotWidget(QDialog) :
         #
         self.elapsed = QLabel(self)
         self.elapsed.setGeometry(QRect(20, 20, 250, 20))
-        self.elapsed.setFont(QFont("Arial",10))
+        self.elapsed.setStyleSheet('font: 14pt "Arial";')
         #
         self.start_time = datetime.now()
         #

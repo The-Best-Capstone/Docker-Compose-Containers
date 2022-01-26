@@ -50,6 +50,8 @@ class Interface(QMainWindow) :
         self.channel_list.setModel(self.table_model)
         header = self.channel_list.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
+        #
+        self.config = None 
         
         ## show the ui 
         if(screen_geo.width() <= 1100 or screen_geo.height() <= 700) : 
@@ -58,17 +60,56 @@ class Interface(QMainWindow) :
             self.show()
 
         ## Button events
-        self.open_btn.clicked.connect(self.loadConfiguration)
+        self.open_btn.clicked.connect(self.handleConfiguration)
         
-    def loadConfiguration(self) :
-        try :
-            config = Configuration(self)
-        except FileNotFoundError :
-            ## TODO: go back to nothing loaded
-            pass
+    def handleConfiguration(self) :
+        if self.config is None :
+            try :
+                config = Configuration(self)
+            except Exception :
+                ## TODO: go back to nothing loaded
+                self.config = None 
+                self.open_btn.setText("Open Configuration...")
+                self.err_lbl.setText("Analog Channels are not yet initialized.")
+                self.err_lbl.setEnabled(True)
+                self.channel_list.setEnabled(False)
+            else :
+                ## TODO: implement loaded stuff on UI 
+                self.config = config 
+                self.open_btn.setText("Close Configuration")
+                self.name_lbl.setText(config.name)
+                self.created_lbl.setText(config.data["created"])
+                self.modified_lbl.setText(config.data["modified"])
+                self.analog_lbl.setText(str(config.data["analog"]))
+                self.tcp_lbl.setText(str(config.data["tcp"]))
+                #
+                # TODO: Link analog channel display to docker image
+                self.err_lbl.setText("")
+                self.err_lbl.setEnabled(False)
+                self.channel_list.setEnabled(True)
         else :
-            ## TODO: implement loaded stuff on UI 
-            pass
+            ## we have a config
+            ## TODO: prompt 
+            self.config.saveConfig() 
+            self.config = None 
+            self.open_btn.setText("Open Configuration...")
+            self.name_lbl.setText(".json")
+            self.created_lbl.setText("")
+            self.modified_lbl.setText("")
+            self.analog_lbl.setText("False")
+            self.tcp_lbl.setText("False")
+            #
+            # TODO: Link analog channel display to docker image
+            self.err_lbl.setText("Analog Channels are not yet initialized.")
+            self.err_lbl.setEnabled(True)
+            self.channel_list.setEnabled(False)
+
+    def closeEvent(self, event) :
+        if self.config :
+            self.config.saveConfig() 
+        #
+        self.accept() 
+
 
 
 
