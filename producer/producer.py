@@ -20,10 +20,11 @@ class SensorThread(Thread):
             print("Error!!")
 
         while True:
-            randInt = round(uniform(15.000, 300.000), 3)
-            print(self.current_sensor, randInt)
-            producer.send('topic_test', value=randInt)
-            sleep(1)
+            for index in range(20):
+                randInt = round(uniform(15.000, 300.000), 3)
+                print(self.current_sensor['channel'], randInt)
+                producer.send('topic_test', value=randInt)
+                sleep(0.4)
 
 if __name__ == "__main__":
     with open("./config.json", "r") as f:
