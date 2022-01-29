@@ -26,11 +26,15 @@ class ConsumerThread(Thread):
             print(e)
 
         for msg in consumer:
-            value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, msg.value)
-            print(value)
-            cols = ['time', 'topic', 'data_value']
+            results = []
+            for key, value in msg.value.items():
+                value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, key, value)
+                print(value)
+                results.append(value)
+
+            cols = ['time', 'topic', 'channel', 'data_value']
             copyMgr = CopyManager(conn, 'sensordata', cols)
-            copyMgr.copy((value,))
+            copyMgr.copy(results)
             conn.commit()
 
 
@@ -40,6 +44,7 @@ if __name__ == '__main__':
     query_create_sensor_data_table = """CREATE TABLE sensordata (
         time TIMESTAMPTZ NOT NULL,
         topic VARCHAR(108),
+        channel VARCHAR(108),
         data_value DOUBLE PRECISION);"""
     # Query to create hypertable based on sensordata table
     query_create_sensor_data_hypertable = "SELECT create_hypertable('sensordata', 'time')"
