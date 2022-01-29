@@ -1,8 +1,9 @@
-# Kafka Docker Setup
+# Docker-Compose-Containers
 
-Runs on localhost 9092
-
-cd into the kafka-docker directory 
+cd into the directory folder
 run docker-compose up -d
 
-Enjoy on Linux. TBD on Windows and ARM
+You can then run docker ps in your terminal to determine the localhost ports each docker container is forwarding to
+  - Grafana: 3000
+  - Timescale: 5432
+  - Kafka: 9092
