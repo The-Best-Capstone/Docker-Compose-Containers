@@ -22,11 +22,14 @@ class SensorThread(Thread):
             print(ex)
 
         while True:
+            values = {}
             for sensor in self.current_sensors:
                 randInt = round(uniform(15.000, 300.000), 3)
-                print(sensor['channel'], randInt)
-                producer.send(sensor['topic_name'], value=randInt)
-                sleep(0.5)
+                values[sensor['channel']] = randInt
+            print(values)
+            producer.send('analog', value=values)
+            # minimum sleep needed when processing dictionaries and writing to timescale like this
+            sleep(0.00625)
 
 if __name__ == "__main__":
     with open("./config.json", "r") as f:
