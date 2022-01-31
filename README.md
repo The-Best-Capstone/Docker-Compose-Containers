@@ -1,6 +1,9 @@
-# TimescaleDB Setup
+# Docker-Compose-Containers
 
-cd into timescaledb
+cd into the directory folder
 run docker-compose up -d
 
-Works for Windows and Linux. Not sure about ARM with this one. 
+You can then run docker ps in your terminal to determine the localhost ports each docker container is forwarding to
+  - Grafana: 3000
+  - Timescale: 5432
+  - Kafka: 9092
