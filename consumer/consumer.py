@@ -50,7 +50,7 @@ if __name__ == '__main__':
     query_create_sensor_data_hypertable = "SELECT create_hypertable('sensordata', 'time')"
 
     # Change this line to connect to the database instance on the local device
-    CONNECTION = "postgres://god:testing@172.17.0.1:5432/postgres"
+    CONNECTION = "postgres://postgres:testing@172.17.0.1:5432/sensorsdb"
     conn = psycopg2.connect(CONNECTION)
     # Create the object to manage our queries
     cursor = conn.cursor()
