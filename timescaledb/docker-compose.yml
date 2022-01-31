@@ -2,14 +2,18 @@ version: "3"
 services:
     timescaledb:
         image: timescale/timescaledb:latest-pg11
-        environment:
-            POSTGRES_PASSWORD: "tEst123@"
         volumes:
             - db-data:/var/lib/postgresql/data
+            - ./db:/docker-entrypoint-initdb.d/
         ports:
             - "5432:5432"
-        restart: unless-stopped
-
+        environment:
+          - POSTGRES_USER=root
+          - POSTGRES_PASSWORD=password
+          - APP_DB_USER=postgres
+          - APP_DB_PASS=testing
+          - APP_DB_NAME=sensorsdb
 volumes:
     db-data:
         driver: local
+
