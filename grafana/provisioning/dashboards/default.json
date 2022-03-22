@@ -19,13 +19,15 @@
     ]
   },
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": null,
+      "datasource": "Postgres",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -127,8 +129,8 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "1s",
-  "schemaVersion": 30,
+  "refresh": "500ms",
+  "schemaVersion": 31,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -157,5 +159,5 @@
   "timezone": "",
   "title": "New dashboard Copy",
   "uid": "yEJAfQbnk",
-  "version": 6
+  "version": 3
 }

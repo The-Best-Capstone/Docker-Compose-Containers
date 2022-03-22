@@ -2,5 +2,6 @@
   org_id: 1
   folder: ''
   type: 'file'
+  allowUiUpdates: true
   options:
     folder: '/etc/grafana/provisioning/dashboards'

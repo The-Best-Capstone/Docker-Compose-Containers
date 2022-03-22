@@ -5,6 +5,7 @@ import datetime
 import psycopg2
 from pgcopy import CopyManager
 
+DISGUSTING="10.42.0.1"
 
 class ConsumerThread(Thread):
     def __init__(self):
@@ -14,7 +15,7 @@ class ConsumerThread(Thread):
         print(self)
         try:
             consumer = KafkaConsumer(
-                bootstrap_servers=['172.17.0.1:9092'],
+                bootstrap_servers=[f'{DISGUSTING}:9092'],
                 auto_offset_reset='latest',
                 enable_auto_commit=True,
                 group_id='my-group-id',
@@ -50,7 +51,7 @@ if __name__ == '__main__':
     query_create_sensor_data_hypertable = "SELECT create_hypertable('sensordata', 'time')"
 
     # Change this line to connect to the database instance on the local device
-    CONNECTION = "postgres://postgres:testing@172.17.0.1:5432/sensorsdb"
+    CONNECTION = f"postgres://postgres:testing@{DISGUSTING}:5432/sensorsdb"
     conn = psycopg2.connect(CONNECTION)
     # Create the object to manage our queries
     cursor = conn.cursor()
@@ -67,7 +68,7 @@ if __name__ == '__main__':
 
     conn.commit()
 
-    available_topics = KafkaConsumer(bootstrap_servers=['172.17.0.1:9092']).topics()
+    available_topics = KafkaConsumer(bootstrap_servers=[f'{DISGUSTING}:9092']).topics()
     if len(available_topics) > 0:
         for topic in available_topics:
             query_simulation_sensor_creation = f"""INSERT INTO sensors (id, type) 
