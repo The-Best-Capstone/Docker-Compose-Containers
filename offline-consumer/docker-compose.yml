@@ -1,0 +1,10 @@
+version: "3"
+services:
+    app:
+        container_name: offline-consumer
+        build: .
+        stdin_open: true
+        tty: true
+        privileged: true
+        volumes:
+            - "/media/god/60A0EDAEA0ED8ABC/:/media/god/60A0EDAEA0ED8ABC/"
