@@ -2,10 +2,11 @@ from kafka import KafkaConsumer
 from json import loads
 from threading import Thread
 import datetime
+from time import sleep
 import psycopg2
 from pgcopy import CopyManager
 
-DISGUSTING="10.42.0.1"
+DISGUSTING="192.168.122.1"
 
 class ConsumerThread(Thread):
     def __init__(self):
@@ -40,6 +41,7 @@ class ConsumerThread(Thread):
 
 
 if __name__ == '__main__':
+    sleep(15)
     query_create_sensors_table = "CREATE TABLE sensors (id serial PRIMARY KEY NOT NULL, type VARCHAR(108));"
     # Query for creating actual sensor data table so we can create a hypertable (Timescale specific)
     query_create_sensor_data_table = """CREATE TABLE sensordata (
@@ -67,7 +69,7 @@ if __name__ == '__main__':
     cursor.execute(query_create_sensor_data_hypertable)
 
     conn.commit()
-
+    print("Starting threads")
     available_topics = KafkaConsumer(bootstrap_servers=[f'{DISGUSTING}:9092']).topics()
     if len(available_topics) > 0:
         for topic in available_topics:
