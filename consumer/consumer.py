@@ -6,11 +6,13 @@ from time import sleep
 import psycopg2
 from pgcopy import CopyManager
 
-DISGUSTING="192.168.122.1"
+DISGUSTING="191.30.80.101"
 
 class ConsumerThread(Thread):
-    def __init__(self):
+    def __init__(self, topic):
         Thread.__init__(self)
+        self.topic = topic
+        self.start()
 
     def run(self):
         print(self)
@@ -22,28 +24,48 @@ class ConsumerThread(Thread):
                 group_id='my-group-id',
                 value_deserializer=lambda x: loads(x.decode('utf-8'))
             )
-            print(consumer.topics())
-            consumer.subscribe(consumer.topics())
+            print(self.topic)
+            consumer.subscribe(self.topic)
         except Exception as e:
             print(e)
 
         for msg in consumer:
             results = []
-            for key, value in msg.value.items():
-                value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, key, value)
-                print(value)
-                results.append(value)
+            if msg.topic == 'max-chip':
+                for item in msg.value:
+                    value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, item[1], item[2], item[3], item[4], item[5])
+                    print(value)
+                    results.append(value)
+            else:
+                for key, value in msg.value.items():
+                    value = (datetime.datetime.now(datetime.timezone.utc), msg.topic, key, value)
+                    print(value)
+                    results.append(value)
 
-            cols = ['time', 'topic', 'channel', 'data_value']
-            copyMgr = CopyManager(conn, 'sensordata', cols)
-            copyMgr.copy(results)
-            conn.commit()
+            if (msg.topic == "max-chip"):
+                cols = ['time', 'topic', 'chip_select', 'clock_pin', 'data_pin', 'reference_juntion_temperature', 'thermocouple_temperature']
+                copyMgr = CopyManager(conn, 'maxchipdata', cols)
+                copyMgr.copy(results)
+                conn.commit()
+            else:
+                cols = ['time', 'topic', 'channel', 'data_value']
+                copyMgr = CopyManager(conn, 'sensordata', cols)
+                copyMgr.copy(results)
+                conn.commit()
 
 
 if __name__ == '__main__':
     sleep(15)
     query_create_sensors_table = "CREATE TABLE sensors (id serial PRIMARY KEY NOT NULL, type VARCHAR(108));"
     # Query for creating actual sensor data table so we can create a hypertable (Timescale specific)
+    query_create_max_chip_table = """CREATE TABLE maxchipdata (
+        time TIMESTAMPTZ NOT NULL,
+        topic VARCHAR(108),
+        chip_select SMALLINT,
+        clock_pin SMALLINT,
+        data_pin SMALLINT,
+        reference_juntion_temperature DOUBLE PRECISION,
+        thermocouple_temperature DOUBLE PRECISION);"""
     query_create_sensor_data_table = """CREATE TABLE sensordata (
         time TIMESTAMPTZ NOT NULL,
         topic VARCHAR(108),
@@ -51,7 +73,7 @@ if __name__ == '__main__':
         data_value DOUBLE PRECISION);"""
     # Query to create hypertable based on sensordata table
     query_create_sensor_data_hypertable = "SELECT create_hypertable('sensordata', 'time')"
-
+    query_create_max_chip_hypertable = "SELECT create_hypertable('maxchipdata', 'time')" 
     # Change this line to connect to the database instance on the local device
     CONNECTION = f"postgres://postgres:testing@{DISGUSTING}:5432/sensorsdb"
     conn = psycopg2.connect(CONNECTION)
@@ -61,13 +83,16 @@ if __name__ == '__main__':
     # Remove all tables created in previous test...
     cursor.execute("DROP TABLE IF EXISTS sensordata")
     cursor.execute("DROP TABLE IF EXISTS sensors")
+    cursor.execute("DROP TABLE IF EXISTS maxchipdata")
+
     # Commit those changes in the database
     conn.commit()
     # Create relational table, data table, and hypertable...
     cursor.execute(query_create_sensors_table)
     cursor.execute(query_create_sensor_data_table)
     cursor.execute(query_create_sensor_data_hypertable)
-
+    cursor.execute(query_create_max_chip_table)
+    cursor.execute(query_create_max_chip_hypertable)
     conn.commit()
     print("Starting threads")
     available_topics = KafkaConsumer(bootstrap_servers=[f'{DISGUSTING}:9092']).topics()
@@ -77,6 +102,4 @@ if __name__ == '__main__':
                                                 VALUES (DEFAULT, '{topic}') ON CONFLICT DO NOTHING; """
             cursor.execute(query_simulation_sensor_creation)
             conn.commit()
-
-        for worker in range(6):
-            ConsumerThread().start()
+            ConsumerThread(topic)
