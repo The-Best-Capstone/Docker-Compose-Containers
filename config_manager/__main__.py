@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os,sys,traceback
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
