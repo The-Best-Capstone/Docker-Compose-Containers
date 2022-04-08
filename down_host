@@ -1,7 +1,5 @@
 #!/bin/bash
 
-docker-compose -f ~/Docker-Compose-Containers/kafka/docker-compose.yml down && \\
-docker-compose -f ~/Docker-Compose-Containers/timescaledb/docker-compose.yml down && \\
-docker-compose -f ~/Docker-Compose-Containers/grafana/docker-compose.yml down && \\
+docker-compose -f ~/Docker-Compose-Containers/kafka/docker-compose.yml down && docker-compose -f ~/Docker-Compose-Containers/timescaledb/docker-compose.yml down && docker-compose -f ~/Docker-Compose-Containers/grafana/docker-compose.yml down &&
 docker-compose -f ~/Docker-Compose-Containers/consumer/docker-compose.yml down
 
