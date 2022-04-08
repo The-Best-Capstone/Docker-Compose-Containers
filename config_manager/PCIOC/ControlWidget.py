@@ -1,4 +1,5 @@
 import os, time
+import subprocess
 from datetime import datetime
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -122,7 +123,7 @@ class ControlWidget(QWidget) :
             self.elapsed_timer.kill() 
             self.elapsed_timer = None 
             self.btnLoad.setEnabled(True)
-            self.btnGrafana.setEnabled = False
+            self.btnGrafana.setEnabled(False)
             self.btnData.setText("Start Data Collection")
             self.collecting_data = False
             #
@@ -145,10 +146,13 @@ class ControlWidget(QWidget) :
     def openGrafana(self) : 
         try :
             # windows and mac
-            os.system("open \"\" http://0.0.0.0:3000/d/yEJAfQbnk/new-dashboard-copy?orgId=1&refresh=500ms")
+            if not os.uname()[0] == "Linux":
+                os.system("open http://0.0.0.0:3000/d/yEJAfQbnk/new-dashboard-copy?orgId=1&refresh=500ms &")
+            else :
+                raise ValueError("lol")
         except Exception : 
             try : # for linux
-                os.system("xdg-open \"\" http://0.0.0.0:3000/d/yEJAfQbnk/new-dashboard-copy?orgId=1&refresh=500ms") 
+                os.system("xdg-open http://0.0.0.0:3000/d/yEJAfQbnk/new-dashboard-copy?orgId=1&refresh=500ms &") 
             except Exception :
                 pass 
 

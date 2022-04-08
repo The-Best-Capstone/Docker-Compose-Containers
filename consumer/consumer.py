@@ -24,12 +24,13 @@ class ConsumerThread(Thread):
                 group_id='my-group-id',
                 value_deserializer=lambda x: loads(x.decode('utf-8'))
             )
-            print(self.topic)
             if self.topic == 'max-chip':
+                print(self.topic)
                 consumer.subscribe(self.topic)
             else:
                 topics = consumer.topics()
                 topics.remove('max-chip')
+                print(topics)
                 consumer.subscribe(topics)
         except Exception as e:
             print(e)
@@ -60,7 +61,7 @@ class ConsumerThread(Thread):
 
 
 if __name__ == '__main__':
-    sleep(5)
+    sleep(15)
     query_create_sensors_table = "CREATE TABLE IF NOT EXISTS sensors (id serial PRIMARY KEY NOT NULL, type VARCHAR(108));"
     # Query for creating actual sensor data table so we can create a hypertable (Timescale specific)
     query_create_max_chip_table = """CREATE TABLE IF NOT EXISTS maxchipdata (
