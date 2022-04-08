@@ -1,8 +1,9 @@
 version: "3"
 services:
     app:
-        container_name: producer
+        container_name: thermocouples
         build: .
+        privileged: true
         stdin_open: true
         tty: true
 

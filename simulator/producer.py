@@ -46,7 +46,7 @@ class SensorThread(Thread):
             sleep(0.25)
 
 if __name__ == "__main__":
-    sleep(15)
+    sleep(5)
     with open("./config.json", "r") as f:
         config = load(f)
 

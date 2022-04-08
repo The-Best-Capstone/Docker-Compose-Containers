@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
     # Multi-chip example
     import time
-    time.sleep(10)
+    time.sleep(5)
     producer = KafkaProducer(
         bootstrap_servers=['191.30.80.101:9092'],
         value_serializer=lambda x: dumps(x).encode('utf-8')

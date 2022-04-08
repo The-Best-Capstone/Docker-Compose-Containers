@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker-compose -H ssh://pi -f ~/Docker-Compose-Containers/simulator/docker-compose.yml down && \\
+docker-compose -H ssh://pi -f ~/Docker-Compose-Containers/thermocouples/docker-compose.yml down

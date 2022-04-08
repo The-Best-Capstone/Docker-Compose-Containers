@@ -25,7 +25,12 @@ class ConsumerThread(Thread):
                 value_deserializer=lambda x: loads(x.decode('utf-8'))
             )
             print(self.topic)
-            consumer.subscribe(self.topic)
+            if self.topic == 'max-chip':
+                consumer.subscribe(self.topic)
+            else:
+                topics = consumer.topics()
+                topics.remove('max-chip')
+                consumer.subscribe(topics)
         except Exception as e:
             print(e)
 
@@ -55,10 +60,10 @@ class ConsumerThread(Thread):
 
 
 if __name__ == '__main__':
-    sleep(15)
-    query_create_sensors_table = "CREATE TABLE sensors (id serial PRIMARY KEY NOT NULL, type VARCHAR(108));"
+    sleep(5)
+    query_create_sensors_table = "CREATE TABLE IF NOT EXISTS sensors (id serial PRIMARY KEY NOT NULL, type VARCHAR(108));"
     # Query for creating actual sensor data table so we can create a hypertable (Timescale specific)
-    query_create_max_chip_table = """CREATE TABLE maxchipdata (
+    query_create_max_chip_table = """CREATE TABLE IF NOT EXISTS maxchipdata (
         time TIMESTAMPTZ NOT NULL,
         topic VARCHAR(108),
         chip_select SMALLINT,
@@ -66,25 +71,21 @@ if __name__ == '__main__':
         data_pin SMALLINT,
         reference_juntion_temperature DOUBLE PRECISION,
         thermocouple_temperature DOUBLE PRECISION);"""
-    query_create_sensor_data_table = """CREATE TABLE sensordata (
+    query_create_sensor_data_table = """CREATE TABLE IF NOT EXISTS sensordata (
         time TIMESTAMPTZ NOT NULL,
         topic VARCHAR(108),
         channel VARCHAR(108),
         data_value DOUBLE PRECISION);"""
     # Query to create hypertable based on sensordata table
-    query_create_sensor_data_hypertable = "SELECT create_hypertable('sensordata', 'time')"
-    query_create_max_chip_hypertable = "SELECT create_hypertable('maxchipdata', 'time')" 
+    query_create_sensor_data_hypertable = "SELECT create_hypertable('sensordata', 'time', if_not_exists => TRUE);"
+    query_create_max_chip_hypertable = "SELECT create_hypertable('maxchipdata', 'time', if_not_exists => TRUE);" 
+    
     # Change this line to connect to the database instance on the local device
     CONNECTION = f"postgres://postgres:testing@{DISGUSTING}:5432/sensorsdb"
     conn = psycopg2.connect(CONNECTION)
     # Create the object to manage our queries
     cursor = conn.cursor()
-    #
-    # Remove all tables created in previous test...
-    cursor.execute("DROP TABLE IF EXISTS sensordata")
-    cursor.execute("DROP TABLE IF EXISTS sensors")
-    cursor.execute("DROP TABLE IF EXISTS maxchipdata")
-
+    
     # Commit those changes in the database
     conn.commit()
     # Create relational table, data table, and hypertable...

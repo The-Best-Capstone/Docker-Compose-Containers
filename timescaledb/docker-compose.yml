@@ -2,6 +2,7 @@ version: "3"
 services:
     timescaledb:
         image: timescale/timescaledb:latest-pg11
+        container_name: timescale
         volumes:
             - db-data:/var/lib/postgresql/data
             - ./db:/docker-entrypoint-initdb.d/
