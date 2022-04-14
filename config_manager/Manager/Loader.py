@@ -100,7 +100,7 @@ class Configuration :
         for container in self.containers : 
             if container["enabled"] == True : 
                 try :
-                    subprocess.call(["docker-compose", "-H", "ssh://pi", "-f", f"{os.path.expanduser('~')}/Docker-Compose-Containers/{container['name']}/docker-compose.yml", "up", "--build", "-d"])
+                    subprocess.call(["docker-compose", "-H", "ssh://pi@191.30.80.100", "-f", f"{os.path.expanduser('~')}/Docker-Compose-Containers/{container['name']}/docker-compose.yml", "up", "--build", "-d"])
                 except Exception as e: 
                     ## TODO: display error better
                     if Logger :
@@ -112,7 +112,7 @@ class Configuration :
         for container in self.containers : 
             if container["enabled"] == True : 
                 try :
-                    subprocess.call(["docker-compose", "-H", "ssh://pi", "-f", f"{os.path.expanduser('~')}/Docker-Compose-Containers/{container['name']}/docker-compose.yml", "down"])
+                    subprocess.call(["docker-compose", "-H", "ssh://pi@191.30.80.100", "-f", f"{os.path.expanduser('~')}/Docker-Compose-Containers/{container['name']}/docker-compose.yml", "down"])
                 except Exception as e: 
                     ## TODO: display error better
                     if Logger :

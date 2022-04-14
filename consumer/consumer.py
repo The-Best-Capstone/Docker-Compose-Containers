@@ -9,9 +9,8 @@ from pgcopy import CopyManager
 DISGUSTING="191.30.80.101"
 
 class ConsumerThread(Thread):
-    def __init__(self, topic):
+    def __init__(self):
         Thread.__init__(self)
-        self.topic = topic
         self.start()
 
     def run(self):
@@ -24,14 +23,8 @@ class ConsumerThread(Thread):
                 group_id='my-group-id',
                 value_deserializer=lambda x: loads(x.decode('utf-8'))
             )
-            if self.topic == 'max-chip':
-                print(self.topic)
-                consumer.subscribe(self.topic)
-            else:
-                topics = consumer.topics()
-                topics.remove('max-chip')
-                print(topics)
-                consumer.subscribe(topics)
+            topics = consumer.topics()
+            consumer.subscribe(topics)
         except Exception as e:
             print(e)
 
@@ -104,4 +97,6 @@ if __name__ == '__main__':
                                                 VALUES (DEFAULT, '{topic}') ON CONFLICT DO NOTHING; """
             cursor.execute(query_simulation_sensor_creation)
             conn.commit()
-            ConsumerThread(topic)
+
+    for index in range(4):
+        ConsumerThread()
